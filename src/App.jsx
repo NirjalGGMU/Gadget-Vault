@@ -1,3 +1,53 @@
+// import React, { useState } from "react";
+// import { BrowserRouter, Routes, Route } from "react-router-dom";
+// import Navbar from "./components/Navbar/Navbar.jsx";
+// import Hero from "./components/Hero/Hero.jsx";
+// import LoginPage from "./components/Navbar/LoginPage.jsx";
+// import SignupPage from "./components/Navbar/SignupPage.jsx";
+// import DarkMode from "./components/Navbar/DarkMode.jsx";
+// import Category from "./components/Category/Category";
+// import Category2 from "./components/Category/Category2";
+// import Partners from "./components/Partners/Partners.jsx";
+// import Products from "./components/Products/Products";
+// import Footer from "./components/Footer/Footer.jsx";
+// import Popup from "./components/Popup/Popup.jsx";
+
+// const App = () => {
+//     const [orderPopup, setOrderPopup] = useState(false);
+
+//     const handleOrderPopup = () => {
+//         setOrderPopup(!orderPopup);
+//     };
+
+//     return (
+//         <BrowserRouter>
+//             <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-hidden">
+//                 <Navbar handleOrderPopup={handleOrderPopup} />
+//                 <Hero handleOrderPopup={handleOrderPopup} />
+
+//                 <Routes>
+//                     <Route path="/login" element={<LoginPage />} />
+//                     <Route path="/signup" element={<SignupPage />} />
+//                     <Route path="/" element={<Products />} /> {/* Example route */}
+//                     <Route path="/category" element={<Category />} />
+//                     <Route path="/category2" element={<Category2 />} />
+//                     {/* Add other routes as needed */}
+//                 </Routes>
+
+//                 <DarkMode />
+//                 <Category />
+//                 <Category2 />
+//                 <Products />
+//                 <Partners />
+//                 <Footer />
+//                 <Popup orderPopup={orderPopup} handleOrderPopup={handleOrderPopup} />
+//             </div>
+//         </BrowserRouter>
+//     );
+// };
+
+// export default App;
+
 import React from "react";
 import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar/Navbar.jsx";
@@ -23,11 +73,14 @@ const App = () => {
         <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-hidden">
             <Navbar handleOrderPopup={handleOrderPopup} />
             <Hero handleOrderPopup={handleOrderPopup} />
-            
-            {/* ✅ Keep only <Routes> and <Route>, no <BrowserRouter> */}
+
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/signup" element={<SignupPage />} />
+                <Route path="/" element={<Products />} />
+                <Route path="/category" element={<Category />} />
+                <Route path="/category2" element={<Category2 />} />
+                {/* Add other routes as needed */}
             </Routes>
 
             <DarkMode />
@@ -43,50 +96,6 @@ const App = () => {
 
 export default App;
 
-
-// import React from "react";
-// import { Routes, Route } from "react-router-dom";
-// import Navbar from "./components/Navbar/Navbar.jsx";
-// import Hero from "./components/Hero/Hero.jsx";
-// import LoginPage from "./components/Navbar/LoginPage.jsx";
-// import SignupPage from "./components/Navbar/SignupPage.jsx";
-// import DarkMode from "./components/Navbar/DarkMode.jsx";
-// import Category from "./components/Category/Category";
-// import Category2 from "./components/Category/Category2";
-// import Partners from "./components/Partners/Partners.jsx";
-// import Products from "./components/Products/Products";
-// import Footer from "./components/Footer/Footer.jsx";
-// import Popup from "./components/Popup/Popup.jsx";
-
-// const App = () => {
-//     const [orderPopup, setOrderPopup] = React.useState(false);
-
-//     const handleOrderPopup = () => {
-//         setOrderPopup(!orderPopup);
-//     };
-
-//     return (
-//         <div className="bg-white dark:bg-gray-900 dark:text-white duration-200 overflow-hidden">
-//             <Navbar handleOrderPopup={handleOrderPopup} />
-//             <Hero handleOrderPopup={handleOrderPopup} />
-//             <Routes>
-//                 <Route path="/login" element={<LoginPage />} />
-//                 <Route path="/signup" element={<SignupPage />} />
-//             </Routes>
-//             <LoginPage />
-//             <DarkMode />
-//             <SignupPage />
-//             <Category />
-//             <Category2 />
-//             <Products />
-//             <Partners />
-//             <Footer />
-//             <Popup orderPopup={orderPopup} handleOrderPopup={handleOrderPopup} />
-//         </div>
-//     );
-// };
-
-// export default App;
 
 
 
