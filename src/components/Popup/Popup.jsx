@@ -1,81 +1,131 @@
-import { IoCloseOutline } from "react-icons/io5"; // Importing the close icon from react-icons
+import React, { useState } from "react";
+import { IoCloseOutline } from "react-icons/io5";
+import { toast } from 'react-toastify';
 
-const Popup = ({ orderPopup, handleOrderPopup }) => { // Popup component with orderPopup and handleOrderPopup props
+const Popup = ({ orderPopup, handleOrderPopup }) => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    address: ""
+  });
 
-  if (!orderPopup) return null; // Ensure the component is only rendered when orderPopup is true
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    
+    // Validate form
+    if (!formData.name || !formData.email || !formData.address) {
+      toast.error("Please fill in all fields");
+      return;
+    }
+
+    // Get cart items
+    const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Create order object
+    const order = {
+      ...formData,
+      items: cartItems,
+      orderDate: new Date().toISOString(),
+      orderStatus: "pending",
+      orderId: `ORD-${Math.random().toString(36).substr(2, 9)}`
+    };
+
+    // Save order to localStorage
+    const existingOrders = JSON.parse(localStorage.getItem('orders')) || [];
+    localStorage.setItem('orders', JSON.stringify([...existingOrders, order]));
+
+    // Clear cart
+    localStorage.setItem('cart', JSON.stringify([]));
+
+    // Show success message
+    toast.success("Order placed successfully!");
+
+    // Close popup
+    handleOrderPopup();
+
+    // Reset form
+    setFormData({
+      name: "",
+      email: "",
+      address: ""
+    });
+  };
+
+  if (!orderPopup) return null;
 
   return (
     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
-      {/* Outer div with fixed positioning, backdrop blur, and centering */}
-
       <div className="w-[350px] p-6 shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 rounded-md">
-        {/* Inner div containing the popup content with styling */}
-
-        {/* Header Section */}
         <div className="flex items-center justify-between mb-4">
-          {/* Header section with a title and close button */}
-
           <h1 className="text-lg font-semibold">Order Now</h1>
-          {/* Title for the popup */}
-
           <IoCloseOutline
             onClick={handleOrderPopup}
             className="text-2xl cursor-pointer hover:text-red-500 transition"
           />
-          {/* Close button, triggers handleOrderPopup when clicked */}
         </div>
 
-        {/* Form Section */}
-        <form onSubmit={(e) => e.preventDefault()}>
-          {/* Form with onSubmit preventing default action */}
-
+        <form onSubmit={handleSubmit}>
           {/* Name Input */}
           <div className="mb-3">
             <label className="block text-sm font-medium mb-1">Name</label>
-            {/* Label for name input */}
-
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
               placeholder="Enter your name"
               className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {/* Input field for name */}
           </div>
 
           {/* Email Input */}
           <div className="mb-3">
             <label className="block text-sm font-medium mb-1">Email</label>
-            {/* Label for email input */}
-
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email"
               className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
             />
-            {/* Input field for email */}
           </div>
 
           {/* Address Input */}
           <div className="mb-3">
             <label className="block text-sm font-medium mb-1">Address</label>
-            {/* Label for address input */}
-
             <textarea
+              name="address"
+              value={formData.address}
+              onChange={handleChange}
               placeholder="Enter your address"
               className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
               rows="2"
             />
-            {/* Textarea for address */}
+          </div>
+
+          {/* Order Summary */}
+          <div className="mb-3">
+            <h2 className="text-sm font-medium mb-2">Order Summary</h2>
+            <div className="text-sm bg-gray-50 dark:bg-gray-800 p-2 rounded-md">
+              {JSON.parse(localStorage.getItem('cart'))?.length || 0} items in cart
+            </div>
           </div>
 
           {/* Submit Button */}
           <button
+            type="submit"
             className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
-            onClick={handleOrderPopup}
           >
-            Submit
+            Place Order
           </button>
-          {/* Submit button */}
         </form>
       </div>
     </div>
@@ -83,6 +133,98 @@ const Popup = ({ orderPopup, handleOrderPopup }) => { // Popup component with or
 };
 
 export default Popup;
+
+
+
+
+
+
+// Main One
+// import { IoCloseOutline } from "react-icons/io5"; // Importing the close icon from react-icons
+
+// const Popup = ({ orderPopup, handleOrderPopup }) => { // Popup component with orderPopup and handleOrderPopup props
+
+//   if (!orderPopup) return null; // Ensure the component is only rendered when orderPopup is true
+
+//   return (
+//     <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex justify-center items-center z-50">
+//       {/* Outer div with fixed positioning, backdrop blur, and centering */}
+
+//       <div className="w-[350px] p-6 shadow-md bg-white dark:bg-gray-900 dark:text-white duration-200 rounded-md">
+//         {/* Inner div containing the popup content with styling */}
+
+//         {/* Header Section */}
+//         <div className="flex items-center justify-between mb-4">
+//           {/* Header section with a title and close button */}
+
+//           <h1 className="text-lg font-semibold">Order Now</h1>
+//           {/* Title for the popup */}
+
+//           <IoCloseOutline
+//             onClick={handleOrderPopup}
+//             className="text-2xl cursor-pointer hover:text-red-500 transition"
+//           />
+//           {/* Close button, triggers handleOrderPopup when clicked */}
+//         </div>
+
+//         {/* Form Section */}
+//         <form onSubmit={(e) => e.preventDefault()}>
+//           {/* Form with onSubmit preventing default action */}
+
+//           {/* Name Input */}
+//           <div className="mb-3">
+//             <label className="block text-sm font-medium mb-1">Name</label>
+//             {/* Label for name input */}
+
+//             <input
+//               type="text"
+//               placeholder="Enter your name"
+//               className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             />
+//             {/* Input field for name */}
+//           </div>
+
+//           {/* Email Input */}
+//           <div className="mb-3">
+//             <label className="block text-sm font-medium mb-1">Email</label>
+//             {/* Label for email input */}
+
+//             <input
+//               type="email"
+//               placeholder="Enter your email"
+//               className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//             />
+//             {/* Input field for email */}
+//           </div>
+
+//           {/* Address Input */}
+//           <div className="mb-3">
+//             <label className="block text-sm font-medium mb-1">Address</label>
+//             {/* Label for address input */}
+
+//             <textarea
+//               placeholder="Enter your address"
+//               className="w-full p-2 border rounded-md dark:bg-gray-800 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+//               rows="2"
+//             />
+//             {/* Textarea for address */}
+//           </div>
+
+//           {/* Submit Button */}
+//           <button
+//             className="mt-4 w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition"
+//             onClick={handleOrderPopup}
+//           >
+//             Submit
+//           </button>
+//           {/* Submit button */}
+//         </form>
+//       </div>
+//     </div>
+//   );
+// };
+
+// export default Popup;
 
 
 

@@ -1,7 +1,45 @@
-import React from "react";
+import React, { useState } from "react";
 import Button from "../Shared/Button";
+import { toast } from 'react-toastify';
 
 const ProductCard = ({ data }) => {
+  const handleAddToCart = (product) => {
+    try {
+      // Get existing cart items from localStorage
+      const existingCartItems = JSON.parse(localStorage.getItem('cart')) || [];
+      
+      // Check if product already exists in cart
+      const existingProduct = existingCartItems.find(item => item.id === product.id);
+      
+      let updatedCart;
+      if (existingProduct) {
+        // If product exists, update quantity
+        updatedCart = existingCartItems.map(item => 
+          item.id === product.id 
+            ? { ...item, quantity: (item.quantity || 1) + 1 }
+            : item
+        );
+      } else {
+        // If product doesn't exist, add it with quantity 1
+        updatedCart = [...existingCartItems, { ...product, quantity: 1 }];
+      }
+      
+      // Save back to localStorage
+      localStorage.setItem('cart', JSON.stringify(updatedCart));
+      
+      // Show success notification
+      toast.success('Product added to cart!', {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+    } catch (error) {
+      toast.error('Failed to add product to cart', {
+        position: "bottom-right",
+        autoClose: 2000,
+      });
+    }
+  };
+
   return (
     <div className="mb-10">
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5 place-items-center">
@@ -20,9 +58,10 @@ const ProductCard = ({ data }) => {
                   text={"Add to cart"}
                   bgColor={"bg-primary"}
                   textColor={"text-white"}
+                  onClick={() => handleAddToCart(data)}
                 />
               </div>
-            </div> {/* Closing the relative div */}
+            </div>
             <div className="leading-7">
               <h2 className="font-semibold">{data.title}</h2>
               <h2 className="font-bold">${data.price}</h2>
