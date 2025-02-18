@@ -47,6 +47,9 @@
 // };
 
 // export default App;
+
+
+
 import React, { useState, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 import { ToastContainer } from 'react-toastify';
@@ -64,6 +67,7 @@ import LoginPage from "./components/Auth/LoginPage";
 import SignupPage from "./components/Auth/SignupPage";
 import About from "./components/Pages/About";
 import Contact from "./components/Pages/Contact";
+import Testimonials from "./components/Testimonials/Testimonials";
 
 const App = () => {
   const [orderPopup, setOrderPopup] = useState(false);
@@ -106,6 +110,7 @@ const App = () => {
                 <Category />
                 <Category2 />
                 <Products />
+                <Testimonials />
               </>
             } 
           />
