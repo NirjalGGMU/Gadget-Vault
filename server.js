@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const authRoutes = require('./authRoutes');
+const authRoutes = require('./gadget-vault-backend/authRoutes');
 
 const app = express();
 const port = 3000;
