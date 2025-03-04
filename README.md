@@ -1,4 +1,6 @@
 # Gadget-Vault
+Backend: https://github.com/NirjalGGMU/Gadget-Vault-Backend.git
+https://github.com/NirjalGGMU/Gadget-Vault-Frontend/tree/master
 
 A web application for managing and tracking gadgets and electronic devices inventory.
 
